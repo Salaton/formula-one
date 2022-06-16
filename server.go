@@ -20,6 +20,12 @@ func main() {
 	// Return a server
 	srv := http.Server{}
 
+	// TODO: Have this implementation in another package --> Extracts it as its own, and put it on a subrouter
+	//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+
+	// http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	// http.Handle("/query", srv)
+
 	// Create a channel that will be used to listen for cancellation signales
 	done := make(chan os.Signal, 1)
 
