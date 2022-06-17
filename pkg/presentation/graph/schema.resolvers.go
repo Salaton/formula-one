@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Salaton/formula-one/pkg/domain/model"
 	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
-	"github.com/Salaton/formula-one/pkg/presentation/graph/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
