@@ -1,0 +1,3 @@
+extend type Query {
+  raceSchedule(year: Int!): DataResponse!
+}
