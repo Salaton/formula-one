@@ -11,7 +11,7 @@ import (
 )
 
 func (r *queryResolver) RaceSchedule(ctx context.Context, year int) (*domain.DataResponse, error) {
-	return r.Resolver.RaceSchedule.GetSeasonRaceSchedules(ctx, year)
+	return r.formulaone.RaceSchedule.GetSeasonRaceSchedules(ctx, year)
 }
 
 // Query returns generated.QueryResolver implementation.

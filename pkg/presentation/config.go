@@ -14,22 +14,26 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Salaton/formula-one/pkg/presentation/graph"
 	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
+	"github.com/Salaton/formula-one/pkg/usecase"
+	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 )
 
-// Create a mux router
-
 func Router(ctx context.Context) *mux.Router {
 	r := mux.NewRouter()
 
+	// Initialise the usecase
+	raceSchedule := raceschedule.NewRaceScheduleImplementation()
+	useCase := usecase.NewFormulaOneUseCase(raceSchedule)
 	r.Path("/ide").HandlerFunc(playground.Handler("GraphQL Playground", "/graphql"))
+
 	// Graphql endpoint
 	authR := r.Path("/graphql").Subrouter()
 	authR.Methods(
 		http.MethodPost,
 		http.MethodGet,
-	).HandlerFunc(GQLGenHandler(ctx))
+	).HandlerFunc(GQLGenHandler(ctx, *useCase))
 
 	return r
 }
@@ -87,8 +91,9 @@ func StartServer(ctx context.Context, port int) error {
 	return nil
 }
 
-func GQLGenHandler(ctx context.Context) http.HandlerFunc {
-	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+func GQLGenHandler(ctx context.Context, formulaOneUsecase usecase.FormulaOne) http.HandlerFunc {
+	resolver := graph.NewResolver(ctx, formulaOneUsecase)
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
 	return func(w http.ResponseWriter, r *http.Request) {
 		srv.ServeHTTP(w, r)
 	}

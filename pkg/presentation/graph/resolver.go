@@ -1,6 +1,10 @@
 package graph
 
-import "github.com/Salaton/formula-one/pkg/usecase/raceschedule"
+import (
+	"context"
+
+	"github.com/Salaton/formula-one/pkg/usecase"
+)
 
 //go:generate go run github.com/99designs/gqlgen generate
 
@@ -9,5 +13,11 @@ import "github.com/Salaton/formula-one/pkg/usecase/raceschedule"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	RaceSchedule raceschedule.RaceSchedule
+	formulaone usecase.FormulaOne
+}
+
+func NewResolver(ctx context.Context, formulaone usecase.FormulaOne) *Resolver {
+	return &Resolver{
+		formulaone: formulaone,
+	}
 }

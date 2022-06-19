@@ -22,7 +22,7 @@ type RaceSchedule interface {
 
 type ScheduleDetails struct{}
 
-func NewRaceScheduleImplementation(schedule RaceSchedule) *ScheduleDetails {
+func NewRaceScheduleImplementation() *ScheduleDetails {
 	return &ScheduleDetails{}
 }
 
@@ -47,6 +47,7 @@ func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (
 	return data, nil
 }
 
+// TODO: Extract this to a different file
 func MakeRequest(ctx context.Context, method string, path string, body interface{}) (*http.Response, error) {
 	client := http.Client{}
 	if method == http.MethodGet {
