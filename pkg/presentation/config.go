@@ -10,6 +10,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/Salaton/formula-one/pkg/presentation/graph"
+	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 )
@@ -19,7 +23,14 @@ import (
 func Router(ctx context.Context) *mux.Router {
 	r := mux.NewRouter()
 
-	// r.Path() --> Implementation goes here
+	r.Path("/ide").HandlerFunc(playground.Handler("GraphQL Playground", "/graphql"))
+	// Graphql endpoint
+	authR := r.Path("/graphql").Subrouter()
+	authR.Methods(
+		http.MethodPost,
+		http.MethodGet,
+	).HandlerFunc(GQLGenHandler(ctx))
+
 	return r
 }
 
@@ -76,9 +87,9 @@ func StartServer(ctx context.Context, port int) error {
 	return nil
 }
 
-// Initialize GraphQL
-// TODO: Have this implementation in another package --> Extracts it as its own, and put it on a subrouter
-//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
-
-// http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-// http.Handle("/query", srv)
+func GQLGenHandler(ctx context.Context) http.HandlerFunc {
+	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	return func(w http.ResponseWriter, r *http.Request) {
+		srv.ServeHTTP(w, r)
+	}
+}
