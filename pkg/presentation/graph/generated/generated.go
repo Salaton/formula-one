@@ -9,9 +9,11 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
+	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/Salaton/formula-one/pkg/domain"
 	"github.com/Salaton/formula-one/pkg/domain/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
@@ -36,17 +38,85 @@ type Config struct {
 
 type ResolverRoot interface {
 	Mutation() MutationResolver
+	Query() QueryResolver
 }
 
 type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	Circuit struct {
+		CircuitID   func(childComplexity int) int
+		CircuitName func(childComplexity int) int
+		Location    func(childComplexity int) int
+		URL         func(childComplexity int) int
+	}
+
+	DataResponse struct {
+		MRData func(childComplexity int) int
+	}
+
+	FirstPractice struct {
+		Date func(childComplexity int) int
+		Time func(childComplexity int) int
+	}
+
+	Location struct {
+		Country  func(childComplexity int) int
+		Lat      func(childComplexity int) int
+		Locality func(childComplexity int) int
+		Long     func(childComplexity int) int
+	}
+
+	MRData struct {
+		Limit     func(childComplexity int) int
+		Offset    func(childComplexity int) int
+		RaceTable func(childComplexity int) int
+		Series    func(childComplexity int) int
+		Total     func(childComplexity int) int
+		Xmlns     func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateTodo func(childComplexity int, input model.NewTodo) int
 	}
 
+	Qualifying struct {
+		Date func(childComplexity int) int
+		Time func(childComplexity int) int
+	}
+
 	Query struct {
+		RaceSchedule func(childComplexity int, year int) int
+	}
+
+	RaceTable struct {
+		Races  func(childComplexity int) int
+		Season func(childComplexity int) int
+	}
+
+	Races struct {
+		Circuit        func(childComplexity int) int
+		Date           func(childComplexity int) int
+		FirstPractice  func(childComplexity int) int
+		Qualifying     func(childComplexity int) int
+		RaceName       func(childComplexity int) int
+		Round          func(childComplexity int) int
+		Season         func(childComplexity int) int
+		SecondPractice func(childComplexity int) int
+		ThirdPractice  func(childComplexity int) int
+		Time           func(childComplexity int) int
+		URL            func(childComplexity int) int
+	}
+
+	SecondPractice struct {
+		Date func(childComplexity int) int
+		Time func(childComplexity int) int
+	}
+
+	ThirdPractice struct {
+		Date func(childComplexity int) int
+		Time func(childComplexity int) int
 	}
 
 	Todo struct {
@@ -65,6 +135,9 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
 }
+type QueryResolver interface {
+	RaceSchedule(ctx context.Context, year int) (*domain.DataResponse, error)
+}
 
 type executableSchema struct {
 	resolvers  ResolverRoot
@@ -81,6 +154,125 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "Circuit.circuitId":
+		if e.complexity.Circuit.CircuitID == nil {
+			break
+		}
+
+		return e.complexity.Circuit.CircuitID(childComplexity), true
+
+	case "Circuit.circuitName":
+		if e.complexity.Circuit.CircuitName == nil {
+			break
+		}
+
+		return e.complexity.Circuit.CircuitName(childComplexity), true
+
+	case "Circuit.Location":
+		if e.complexity.Circuit.Location == nil {
+			break
+		}
+
+		return e.complexity.Circuit.Location(childComplexity), true
+
+	case "Circuit.url":
+		if e.complexity.Circuit.URL == nil {
+			break
+		}
+
+		return e.complexity.Circuit.URL(childComplexity), true
+
+	case "DataResponse.MRData":
+		if e.complexity.DataResponse.MRData == nil {
+			break
+		}
+
+		return e.complexity.DataResponse.MRData(childComplexity), true
+
+	case "FirstPractice.date":
+		if e.complexity.FirstPractice.Date == nil {
+			break
+		}
+
+		return e.complexity.FirstPractice.Date(childComplexity), true
+
+	case "FirstPractice.time":
+		if e.complexity.FirstPractice.Time == nil {
+			break
+		}
+
+		return e.complexity.FirstPractice.Time(childComplexity), true
+
+	case "Location.country":
+		if e.complexity.Location.Country == nil {
+			break
+		}
+
+		return e.complexity.Location.Country(childComplexity), true
+
+	case "Location.lat":
+		if e.complexity.Location.Lat == nil {
+			break
+		}
+
+		return e.complexity.Location.Lat(childComplexity), true
+
+	case "Location.locality":
+		if e.complexity.Location.Locality == nil {
+			break
+		}
+
+		return e.complexity.Location.Locality(childComplexity), true
+
+	case "Location.long":
+		if e.complexity.Location.Long == nil {
+			break
+		}
+
+		return e.complexity.Location.Long(childComplexity), true
+
+	case "MRData.limit":
+		if e.complexity.MRData.Limit == nil {
+			break
+		}
+
+		return e.complexity.MRData.Limit(childComplexity), true
+
+	case "MRData.offset":
+		if e.complexity.MRData.Offset == nil {
+			break
+		}
+
+		return e.complexity.MRData.Offset(childComplexity), true
+
+	case "MRData.RaceTable":
+		if e.complexity.MRData.RaceTable == nil {
+			break
+		}
+
+		return e.complexity.MRData.RaceTable(childComplexity), true
+
+	case "MRData.series":
+		if e.complexity.MRData.Series == nil {
+			break
+		}
+
+		return e.complexity.MRData.Series(childComplexity), true
+
+	case "MRData.total":
+		if e.complexity.MRData.Total == nil {
+			break
+		}
+
+		return e.complexity.MRData.Total(childComplexity), true
+
+	case "MRData.xmlns":
+		if e.complexity.MRData.Xmlns == nil {
+			break
+		}
+
+		return e.complexity.MRData.Xmlns(childComplexity), true
+
 	case "Mutation.createTodo":
 		if e.complexity.Mutation.CreateTodo == nil {
 			break
@@ -92,6 +284,151 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(model.NewTodo)), true
+
+	case "Qualifying.date":
+		if e.complexity.Qualifying.Date == nil {
+			break
+		}
+
+		return e.complexity.Qualifying.Date(childComplexity), true
+
+	case "Qualifying.time":
+		if e.complexity.Qualifying.Time == nil {
+			break
+		}
+
+		return e.complexity.Qualifying.Time(childComplexity), true
+
+	case "Query.raceSchedule":
+		if e.complexity.Query.RaceSchedule == nil {
+			break
+		}
+
+		args, err := ec.field_Query_raceSchedule_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.RaceSchedule(childComplexity, args["year"].(int)), true
+
+	case "RaceTable.Races":
+		if e.complexity.RaceTable.Races == nil {
+			break
+		}
+
+		return e.complexity.RaceTable.Races(childComplexity), true
+
+	case "RaceTable.season":
+		if e.complexity.RaceTable.Season == nil {
+			break
+		}
+
+		return e.complexity.RaceTable.Season(childComplexity), true
+
+	case "Races.Circuit":
+		if e.complexity.Races.Circuit == nil {
+			break
+		}
+
+		return e.complexity.Races.Circuit(childComplexity), true
+
+	case "Races.date":
+		if e.complexity.Races.Date == nil {
+			break
+		}
+
+		return e.complexity.Races.Date(childComplexity), true
+
+	case "Races.FirstPractice":
+		if e.complexity.Races.FirstPractice == nil {
+			break
+		}
+
+		return e.complexity.Races.FirstPractice(childComplexity), true
+
+	case "Races.Qualifying":
+		if e.complexity.Races.Qualifying == nil {
+			break
+		}
+
+		return e.complexity.Races.Qualifying(childComplexity), true
+
+	case "Races.raceName":
+		if e.complexity.Races.RaceName == nil {
+			break
+		}
+
+		return e.complexity.Races.RaceName(childComplexity), true
+
+	case "Races.round":
+		if e.complexity.Races.Round == nil {
+			break
+		}
+
+		return e.complexity.Races.Round(childComplexity), true
+
+	case "Races.season":
+		if e.complexity.Races.Season == nil {
+			break
+		}
+
+		return e.complexity.Races.Season(childComplexity), true
+
+	case "Races.SecondPractice":
+		if e.complexity.Races.SecondPractice == nil {
+			break
+		}
+
+		return e.complexity.Races.SecondPractice(childComplexity), true
+
+	case "Races.ThirdPractice":
+		if e.complexity.Races.ThirdPractice == nil {
+			break
+		}
+
+		return e.complexity.Races.ThirdPractice(childComplexity), true
+
+	case "Races.time":
+		if e.complexity.Races.Time == nil {
+			break
+		}
+
+		return e.complexity.Races.Time(childComplexity), true
+
+	case "Races.url":
+		if e.complexity.Races.URL == nil {
+			break
+		}
+
+		return e.complexity.Races.URL(childComplexity), true
+
+	case "SecondPractice.date":
+		if e.complexity.SecondPractice.Date == nil {
+			break
+		}
+
+		return e.complexity.SecondPractice.Date(childComplexity), true
+
+	case "SecondPractice.time":
+		if e.complexity.SecondPractice.Time == nil {
+			break
+		}
+
+		return e.complexity.SecondPractice.Time(childComplexity), true
+
+	case "ThirdPractice.date":
+		if e.complexity.ThirdPractice.Date == nil {
+			break
+		}
+
+		return e.complexity.ThirdPractice.Date(childComplexity), true
+
+	case "ThirdPractice.time":
+		if e.complexity.ThirdPractice.Time == nil {
+			break
+		}
+
+		return e.complexity.ThirdPractice.Time(childComplexity), true
 
 	case "Todo.done":
 		if e.complexity.Todo.Done == nil {
@@ -204,6 +541,10 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
+	{Name: "../raceschedule.graphqls", Input: `extend type Query {
+  raceSchedule(year: Int!): DataResponse!
+}
+`, BuiltIn: false},
 	{Name: "../schema.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
@@ -227,6 +568,72 @@ input NewTodo {
 
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+}
+`, BuiltIn: false},
+	{Name: "../types.graphqls", Input: `type Qualifying {
+  date: String
+  time: String
+}
+
+type ThirdPractice {
+  date: String
+  time: String
+}
+
+type SecondPractice {
+  date: String
+  time: String
+}
+
+type FirstPractice {
+  date: String
+  time: String
+}
+
+type Location {
+  lat: String
+  long: String
+  locality: String
+  country: String
+}
+
+type Circuit {
+  circuitId: String
+  url: String
+  circuitName: String
+  Location: Location
+}
+
+type Races {
+  season: String
+  round: String
+  url: String
+  raceName: String
+  date: String
+  time: String
+  Qualifying: Qualifying
+  ThirdPractice: ThirdPractice
+  SecondPractice: SecondPractice
+  FirstPractice: FirstPractice
+  Circuit: Circuit
+}
+
+type RaceTable {
+  season: String
+  Races: [Races]
+}
+
+type MRData {
+  xmlns: String
+  series: String
+  limit: String
+  offset: String
+  total: String
+  RaceTable: RaceTable
+}
+
+type DataResponse {
+  MRData: MRData
 }
 `, BuiltIn: false},
 }
@@ -263,6 +670,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_raceSchedule_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["year"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("year"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["year"] = arg0
 	return args, nil
 }
 
@@ -303,6 +725,733 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _Circuit_circuitId(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Circuit_circuitId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CircuitID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Circuit_circuitId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Circuit",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Circuit_url(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Circuit_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Circuit_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Circuit",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Circuit_circuitName(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Circuit_circuitName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CircuitName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Circuit_circuitName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Circuit",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Circuit_Location(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Circuit_Location(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Location, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.Location)
+	fc.Result = res
+	return ec.marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐLocation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Circuit_Location(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Circuit",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "lat":
+				return ec.fieldContext_Location_lat(ctx, field)
+			case "long":
+				return ec.fieldContext_Location_long(ctx, field)
+			case "locality":
+				return ec.fieldContext_Location_locality(ctx, field)
+			case "country":
+				return ec.fieldContext_Location_country(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Location", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DataResponse_MRData(ctx context.Context, field graphql.CollectedField, obj *domain.DataResponse) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DataResponse_MRData(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MRData, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.MRData)
+	fc.Result = res
+	return ec.marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐMRData(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DataResponse_MRData(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DataResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "xmlns":
+				return ec.fieldContext_MRData_xmlns(ctx, field)
+			case "series":
+				return ec.fieldContext_MRData_series(ctx, field)
+			case "limit":
+				return ec.fieldContext_MRData_limit(ctx, field)
+			case "offset":
+				return ec.fieldContext_MRData_offset(ctx, field)
+			case "total":
+				return ec.fieldContext_MRData_total(ctx, field)
+			case "RaceTable":
+				return ec.fieldContext_MRData_RaceTable(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MRData", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FirstPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.FirstPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FirstPractice_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FirstPractice_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FirstPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FirstPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.FirstPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FirstPractice_time(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Time, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FirstPractice_time(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FirstPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Location_lat(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Location_lat(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Lat, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Location_lat(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Location",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Location_long(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Location_long(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Long, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Location_long(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Location",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Location_locality(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Location_locality(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Locality, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Location_locality(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Location",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Location_country(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Location_country(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Country, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Location_country(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Location",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_xmlns(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_xmlns(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Xmlns, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_xmlns(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_series(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_series(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Series, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_series(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_limit(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_limit(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Limit, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_limit(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_offset(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_offset(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Offset, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_offset(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_total(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_total(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_total(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MRData_RaceTable(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MRData_RaceTable(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RaceTable, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.RaceTable)
+	fc.Result = res
+	return ec.marshalORaceTable2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaceTable(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MRData_RaceTable(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MRData",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "season":
+				return ec.fieldContext_RaceTable_season(ctx, field)
+			case "Races":
+				return ec.fieldContext_RaceTable_Races(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RaceTable", field.Name)
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createTodo(ctx, field)
@@ -363,6 +1512,147 @@ func (ec *executionContext) fieldContext_Mutation_createTodo(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createTodo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Qualifying_date(ctx context.Context, field graphql.CollectedField, obj *domain.Qualifying) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Qualifying_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Qualifying_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Qualifying",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Qualifying_time(ctx context.Context, field graphql.CollectedField, obj *domain.Qualifying) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Qualifying_time(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Time, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Qualifying_time(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Qualifying",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_raceSchedule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_raceSchedule(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().RaceSchedule(rctx, fc.Args["year"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*domain.DataResponse)
+	fc.Result = res
+	return ec.marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_raceSchedule(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "MRData":
+				return ec.fieldContext_DataResponse_MRData(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DataResponse", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_raceSchedule_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -493,6 +1783,761 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RaceTable_season(ctx context.Context, field graphql.CollectedField, obj *domain.RaceTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RaceTable_season(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Season, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RaceTable_season(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RaceTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RaceTable_Races(ctx context.Context, field graphql.CollectedField, obj *domain.RaceTable) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RaceTable_Races(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Races, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]domain.Races)
+	fc.Result = res
+	return ec.marshalORaces2ᚕgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RaceTable_Races(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RaceTable",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "season":
+				return ec.fieldContext_Races_season(ctx, field)
+			case "round":
+				return ec.fieldContext_Races_round(ctx, field)
+			case "url":
+				return ec.fieldContext_Races_url(ctx, field)
+			case "raceName":
+				return ec.fieldContext_Races_raceName(ctx, field)
+			case "date":
+				return ec.fieldContext_Races_date(ctx, field)
+			case "time":
+				return ec.fieldContext_Races_time(ctx, field)
+			case "Qualifying":
+				return ec.fieldContext_Races_Qualifying(ctx, field)
+			case "ThirdPractice":
+				return ec.fieldContext_Races_ThirdPractice(ctx, field)
+			case "SecondPractice":
+				return ec.fieldContext_Races_SecondPractice(ctx, field)
+			case "FirstPractice":
+				return ec.fieldContext_Races_FirstPractice(ctx, field)
+			case "Circuit":
+				return ec.fieldContext_Races_Circuit(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Races", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_season(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_season(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Season, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_season(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_round(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_round(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Round, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_round(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_url(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_raceName(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_raceName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RaceName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_raceName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_date(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_time(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_time(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Time, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_time(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_Qualifying(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_Qualifying(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Qualifying, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.Qualifying)
+	fc.Result = res
+	return ec.marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐQualifying(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_Qualifying(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "date":
+				return ec.fieldContext_Qualifying_date(ctx, field)
+			case "time":
+				return ec.fieldContext_Qualifying_time(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Qualifying", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_ThirdPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_ThirdPractice(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ThirdPractice, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.ThirdPractice)
+	fc.Result = res
+	return ec.marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐThirdPractice(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_ThirdPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "date":
+				return ec.fieldContext_ThirdPractice_date(ctx, field)
+			case "time":
+				return ec.fieldContext_ThirdPractice_time(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ThirdPractice", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_SecondPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_SecondPractice(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SecondPractice, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.SecondPractice)
+	fc.Result = res
+	return ec.marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐSecondPractice(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_SecondPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "date":
+				return ec.fieldContext_SecondPractice_date(ctx, field)
+			case "time":
+				return ec.fieldContext_SecondPractice_time(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SecondPractice", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_FirstPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_FirstPractice(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FirstPractice, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.FirstPractice)
+	fc.Result = res
+	return ec.marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐFirstPractice(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_FirstPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "date":
+				return ec.fieldContext_FirstPractice_date(ctx, field)
+			case "time":
+				return ec.fieldContext_FirstPractice_time(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FirstPractice", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Races_Circuit(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Races_Circuit(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Circuit, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(domain.Circuit)
+	fc.Result = res
+	return ec.marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐCircuit(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Races_Circuit(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Races",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "circuitId":
+				return ec.fieldContext_Circuit_circuitId(ctx, field)
+			case "url":
+				return ec.fieldContext_Circuit_url(ctx, field)
+			case "circuitName":
+				return ec.fieldContext_Circuit_circuitName(ctx, field)
+			case "Location":
+				return ec.fieldContext_Circuit_Location(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Circuit", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecondPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.SecondPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecondPractice_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecondPractice_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecondPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SecondPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.SecondPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SecondPractice_time(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Time, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SecondPractice_time(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SecondPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ThirdPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.ThirdPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ThirdPractice_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ThirdPractice_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ThirdPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ThirdPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.ThirdPractice) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ThirdPractice_time(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Time, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ThirdPractice_time(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ThirdPractice",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2580,6 +4625,179 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj inter
 
 // region    **************************** object.gotpl ****************************
 
+var circuitImplementors = []string{"Circuit"}
+
+func (ec *executionContext) _Circuit(ctx context.Context, sel ast.SelectionSet, obj *domain.Circuit) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, circuitImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Circuit")
+		case "circuitId":
+
+			out.Values[i] = ec._Circuit_circuitId(ctx, field, obj)
+
+		case "url":
+
+			out.Values[i] = ec._Circuit_url(ctx, field, obj)
+
+		case "circuitName":
+
+			out.Values[i] = ec._Circuit_circuitName(ctx, field, obj)
+
+		case "Location":
+
+			out.Values[i] = ec._Circuit_Location(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var dataResponseImplementors = []string{"DataResponse"}
+
+func (ec *executionContext) _DataResponse(ctx context.Context, sel ast.SelectionSet, obj *domain.DataResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, dataResponseImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DataResponse")
+		case "MRData":
+
+			out.Values[i] = ec._DataResponse_MRData(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var firstPracticeImplementors = []string{"FirstPractice"}
+
+func (ec *executionContext) _FirstPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.FirstPractice) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, firstPracticeImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FirstPractice")
+		case "date":
+
+			out.Values[i] = ec._FirstPractice_date(ctx, field, obj)
+
+		case "time":
+
+			out.Values[i] = ec._FirstPractice_time(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var locationImplementors = []string{"Location"}
+
+func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet, obj *domain.Location) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, locationImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Location")
+		case "lat":
+
+			out.Values[i] = ec._Location_lat(ctx, field, obj)
+
+		case "long":
+
+			out.Values[i] = ec._Location_long(ctx, field, obj)
+
+		case "locality":
+
+			out.Values[i] = ec._Location_locality(ctx, field, obj)
+
+		case "country":
+
+			out.Values[i] = ec._Location_country(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var mRDataImplementors = []string{"MRData"}
+
+func (ec *executionContext) _MRData(ctx context.Context, sel ast.SelectionSet, obj *domain.MRData) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mRDataImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MRData")
+		case "xmlns":
+
+			out.Values[i] = ec._MRData_xmlns(ctx, field, obj)
+
+		case "series":
+
+			out.Values[i] = ec._MRData_series(ctx, field, obj)
+
+		case "limit":
+
+			out.Values[i] = ec._MRData_limit(ctx, field, obj)
+
+		case "offset":
+
+			out.Values[i] = ec._MRData_offset(ctx, field, obj)
+
+		case "total":
+
+			out.Values[i] = ec._MRData_total(ctx, field, obj)
+
+		case "RaceTable":
+
+			out.Values[i] = ec._MRData_RaceTable(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -2619,6 +4837,35 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 	return out
 }
 
+var qualifyingImplementors = []string{"Qualifying"}
+
+func (ec *executionContext) _Qualifying(ctx context.Context, sel ast.SelectionSet, obj *domain.Qualifying) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, qualifyingImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Qualifying")
+		case "date":
+
+			out.Values[i] = ec._Qualifying_date(ctx, field, obj)
+
+		case "time":
+
+			out.Values[i] = ec._Qualifying_time(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var queryImplementors = []string{"Query"}
 
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -2638,6 +4885,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
+		case "raceSchedule":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_raceSchedule(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
 		case "__type":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -2649,6 +4919,158 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var raceTableImplementors = []string{"RaceTable"}
+
+func (ec *executionContext) _RaceTable(ctx context.Context, sel ast.SelectionSet, obj *domain.RaceTable) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, raceTableImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("RaceTable")
+		case "season":
+
+			out.Values[i] = ec._RaceTable_season(ctx, field, obj)
+
+		case "Races":
+
+			out.Values[i] = ec._RaceTable_Races(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var racesImplementors = []string{"Races"}
+
+func (ec *executionContext) _Races(ctx context.Context, sel ast.SelectionSet, obj *domain.Races) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, racesImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Races")
+		case "season":
+
+			out.Values[i] = ec._Races_season(ctx, field, obj)
+
+		case "round":
+
+			out.Values[i] = ec._Races_round(ctx, field, obj)
+
+		case "url":
+
+			out.Values[i] = ec._Races_url(ctx, field, obj)
+
+		case "raceName":
+
+			out.Values[i] = ec._Races_raceName(ctx, field, obj)
+
+		case "date":
+
+			out.Values[i] = ec._Races_date(ctx, field, obj)
+
+		case "time":
+
+			out.Values[i] = ec._Races_time(ctx, field, obj)
+
+		case "Qualifying":
+
+			out.Values[i] = ec._Races_Qualifying(ctx, field, obj)
+
+		case "ThirdPractice":
+
+			out.Values[i] = ec._Races_ThirdPractice(ctx, field, obj)
+
+		case "SecondPractice":
+
+			out.Values[i] = ec._Races_SecondPractice(ctx, field, obj)
+
+		case "FirstPractice":
+
+			out.Values[i] = ec._Races_FirstPractice(ctx, field, obj)
+
+		case "Circuit":
+
+			out.Values[i] = ec._Races_Circuit(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var secondPracticeImplementors = []string{"SecondPractice"}
+
+func (ec *executionContext) _SecondPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.SecondPractice) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, secondPracticeImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SecondPractice")
+		case "date":
+
+			out.Values[i] = ec._SecondPractice_date(ctx, field, obj)
+
+		case "time":
+
+			out.Values[i] = ec._SecondPractice_time(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var thirdPracticeImplementors = []string{"ThirdPractice"}
+
+func (ec *executionContext) _ThirdPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.ThirdPractice) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, thirdPracticeImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ThirdPractice")
+		case "date":
+
+			out.Values[i] = ec._ThirdPractice_date(ctx, field, obj)
+
+		case "time":
+
+			out.Values[i] = ec._ThirdPractice_time(ctx, field, obj)
 
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -3078,6 +5500,20 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
+func (ec *executionContext) marshalNDataResponse2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v domain.DataResponse) graphql.Marshaler {
+	return ec._DataResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v *domain.DataResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DataResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalID(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3085,6 +5521,21 @@ func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface
 
 func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
 	res := graphql.MarshalID(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
+	res, err := graphql.UnmarshalInt(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
+	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3416,6 +5867,89 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
+func (ec *executionContext) marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐCircuit(ctx context.Context, sel ast.SelectionSet, v domain.Circuit) graphql.Marshaler {
+	return ec._Circuit(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐFirstPractice(ctx context.Context, sel ast.SelectionSet, v domain.FirstPractice) graphql.Marshaler {
+	return ec._FirstPractice(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐLocation(ctx context.Context, sel ast.SelectionSet, v domain.Location) graphql.Marshaler {
+	return ec._Location(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐMRData(ctx context.Context, sel ast.SelectionSet, v domain.MRData) graphql.Marshaler {
+	return ec._MRData(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐQualifying(ctx context.Context, sel ast.SelectionSet, v domain.Qualifying) graphql.Marshaler {
+	return ec._Qualifying(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalORaceTable2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaceTable(ctx context.Context, sel ast.SelectionSet, v domain.RaceTable) graphql.Marshaler {
+	return ec._RaceTable(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalORaces2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx context.Context, sel ast.SelectionSet, v domain.Races) graphql.Marshaler {
+	return ec._Races(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalORaces2ᚕgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx context.Context, sel ast.SelectionSet, v []domain.Races) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalORaces2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐSecondPractice(ctx context.Context, sel ast.SelectionSet, v domain.SecondPractice) graphql.Marshaler {
+	return ec._SecondPractice(ctx, sel, &v)
+}
+
+func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {
+	res, err := graphql.UnmarshalString(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOString2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
+	res := graphql.MarshalString(v)
+	return res
+}
+
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
 	if v == nil {
 		return nil, nil
@@ -3430,6 +5964,10 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐThirdPractice(ctx context.Context, sel ast.SelectionSet, v domain.ThirdPractice) graphql.Marshaler {
+	return ec._ThirdPractice(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {
