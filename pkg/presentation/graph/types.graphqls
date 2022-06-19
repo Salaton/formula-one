@@ -1,0 +1,65 @@
+type Qualifying {
+  date: String
+  time: String
+}
+
+type ThirdPractice {
+  date: String
+  time: String
+}
+
+type SecondPractice {
+  date: String
+  time: String
+}
+
+type FirstPractice {
+  date: String
+  time: String
+}
+
+type Location {
+  lat: String
+  long: String
+  locality: String
+  country: String
+}
+
+type Circuit {
+  circuitId: String
+  url: String
+  circuitName: String
+  Location: Location
+}
+
+type Races {
+  season: String
+  round: String
+  url: String
+  raceName: String
+  date: String
+  time: String
+  Qualifying: Qualifying
+  ThirdPractice: ThirdPractice
+  SecondPractice: SecondPractice
+  FirstPractice: FirstPractice
+  Circuit: Circuit
+}
+
+type RaceTable {
+  season: String
+  Races: [Races]
+}
+
+type MRData {
+  xmlns: String
+  series: String
+  limit: String
+  offset: String
+  total: String
+  RaceTable: RaceTable
+}
+
+type DataResponse {
+  MRData: MRData
+}
