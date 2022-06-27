@@ -4,55 +4,55 @@ type DataResponse struct {
 	MRData MRData `json:"MRData"`
 }
 type Location struct {
-	Lat      string `json:"lat"`
-	Long     string `json:"long"`
-	Locality string `json:"locality"`
-	Country  string `json:"country"`
+	Lat      string `json:"lat,omitempty"`
+	Long     string `json:"long,omitempty"`
+	Locality string `json:"locality,omitempty"`
+	Country  string `json:"country,omitempty"`
 }
 type Circuit struct {
-	CircuitID   string   `json:"circuitId"`
-	URL         string   `json:"url"`
-	CircuitName string   `json:"circuitName"`
-	Location    Location `json:"Location"`
+	CircuitID   string   `json:"circuitId,omitempty"`
+	URL         string   `json:"url,omitempty"`
+	CircuitName string   `json:"circuitName,omitempty"`
+	Location    Location `json:"location,omitempty"`
 }
 type FirstPractice struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
+	Date string `json:"date,omitempty"`
+	Time string `json:"time,omitempty"`
 }
 type SecondPractice struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
+	Date string `json:"date,omitempty"`
+	Time string `json:"time,omitempty"`
 }
 type ThirdPractice struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
+	Date string `json:"date,omitempty"`
+	Time string `json:"time,omitempty"`
 }
 type Qualifying struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
+	Date string `json:"date,omitempty"`
+	Time string `json:"time,omitempty"`
 }
 type Races struct {
-	Season         string         `json:"season"`
-	Round          string         `json:"round"`
-	URL            string         `json:"url"`
-	RaceName       string         `json:"raceName"`
-	Circuit        Circuit        `json:"Circuit"`
-	Date           string         `json:"date"`
-	Time           string         `json:"time"`
-	FirstPractice  FirstPractice  `json:"FirstPractice"`
-	SecondPractice SecondPractice `json:"SecondPractice"`
-	ThirdPractice  ThirdPractice  `json:"ThirdPractice"`
-	Qualifying     Qualifying     `json:"Qualifying"`
+	Season         string         `json:"season,omitempty"`
+	Round          string         `json:"round,omitempty"`
+	URL            string         `json:"url,omitempty"`
+	RaceName       string         `json:"raceName,omitempty"`
+	Circuit        Circuit        `json:"circuit,omitempty"`
+	Date           string         `json:"date,omitempty"`
+	Time           string         `json:"time,omitempty"`
+	FirstPractice  FirstPractice  `json:"firstPractice,omitempty"`
+	SecondPractice SecondPractice `json:"secondPractice,omitempty"`
+	ThirdPractice  ThirdPractice  `json:"thirdPractice,omitempty"`
+	Qualifying     Qualifying     `json:"qualifying,omitempty"`
 }
 type RaceTable struct {
-	Season string  `json:"season"`
-	Races  []Races `json:"Races"`
+	Season string   `json:"season,omitempty"`
+	Races  []*Races `json:"races,omitempty"`
 }
 type MRData struct {
-	Xmlns     string    `json:"xmlns"`
-	Series    string    `json:"series"`
-	Limit     string    `json:"limit"`
-	Offset    string    `json:"offset"`
-	Total     string    `json:"total"`
-	RaceTable RaceTable `json:"RaceTable"`
+	Xmlns     string     `json:"xmlns,omitempty"`
+	Series    string     `json:"series,omitempty"`
+	Limit     string     `json:"limit,omitempty"`
+	Offset    string     `json:"offset,omitempty"`
+	Total     string     `json:"total,omitempty"`
+	RaceTable *RaceTable `json:"raceTable,omitempty"`
 }

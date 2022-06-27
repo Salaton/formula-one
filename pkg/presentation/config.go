@@ -38,10 +38,14 @@ func Router(ctx context.Context) *mux.Router {
 	return r
 }
 
+type Options struct {
+	Port int
+}
+
 // Create a server
-func InitializeServer(ctx context.Context, port int) *http.Server {
+func CreateServer(ctx context.Context, opts Options) *http.Server {
 	router := Router(ctx)
-	address := fmt.Sprintf(":%v", port)
+	address := fmt.Sprintf(":%v", opts.Port)
 	srv := &http.Server{
 		Addr:         address,
 		Handler:      router,
@@ -53,8 +57,8 @@ func InitializeServer(ctx context.Context, port int) *http.Server {
 	return srv
 }
 
-func StartServer(ctx context.Context, port int) error {
-	srv := InitializeServer(ctx, port)
+func InitializeServer(ctx context.Context, port int) error {
+	srv := CreateServer(ctx, Options{Port: port})
 
 	// Create a channel that will be used to listen for cancellation signales
 	done := make(chan os.Signal, 1)
