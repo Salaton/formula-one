@@ -13,7 +13,7 @@ const (
 
 func main() {
 	ctx := context.Background()
-	err := presentation.StartServer(ctx, defaultPort)
+	err := presentation.InitializeServer(ctx, defaultPort)
 	if err != nil {
 		log.Fatalf("an error occured: %v", err)
 	}

@@ -50,30 +50,24 @@ func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (
 // TODO: Extract this to a different file
 func MakeRequest(ctx context.Context, method string, path string, body interface{}) (*http.Response, error) {
 	client := http.Client{}
-	if method == http.MethodGet {
-		req, reqErr := http.NewRequestWithContext(ctx, method, path, nil)
-		if reqErr != nil {
-			return nil, reqErr
-		}
-
-		req.Header.Set("Accept", "application/json")
-		req.Header.Set("Content-Type", "application/json")
-
-		return client.Do(req)
-	}
-
 	encoded, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 
 	payload := bytes.NewBuffer(encoded)
-	req, reqErr := http.NewRequestWithContext(ctx, method, path, payload)
-	if reqErr != nil {
-		return nil, reqErr
+	req, err := http.NewRequestWithContext(ctx, method, path, payload)
+	if err != nil {
+		return nil, err
 	}
+
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 
-	return client.Do(req)
+	response, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("an error occured while sending a HTTP request: %w", err)
+	}
+
+	return response, nil
 }
