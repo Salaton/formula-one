@@ -16,7 +16,7 @@ func TestScheduleDetails_GetSeasonRaceSchedules(t *testing.T) {
 	mockRaceScheduleClient := mock_raceschedule.NewMockRaceSchedule(ctrl)
 
 	// configure our mock to return mock data
-	mockRaceScheduleClient.EXPECT().GetSeasonRaceSchedules(gomock.Any(), gomock.Any()).Return(&domain.DataResponse{
+	mockRaceScheduleClient.EXPECT().GetSeasonRaceSchedules(context.Background(), 1990).Return(&domain.DataResponse{
 		MRData: domain.MRData{
 			RaceTable: &domain.RaceTable{
 				Season: "1990",
@@ -30,31 +30,4 @@ func TestScheduleDetails_GetSeasonRaceSchedules(t *testing.T) {
 
 	s := raceschedule.ScheduleDetails{}
 	s.GetSeasonRaceSchedules(context.Background(), 1990)
-
-	// type args struct {
-	// 	ctx  context.Context
-	// 	year int
-	// }
-	// tests := []struct {
-	// 	name    string
-	// 	s       ScheduleDetails
-	// 	args    args
-	// 	want    *domain.DataResponse
-	// 	wantErr bool
-	// }{
-	// 	// TODO: Add test cases.
-	// }
-	// for _, tt := range tests {
-	// 	t.Run(tt.name, func(t *testing.T) {
-	// 		s := ScheduleDetails{}
-	// 		got, err := s.GetSeasonRaceSchedules(tt.args.ctx, tt.args.year)
-	// 		if (err != nil) != tt.wantErr {
-	// 			t.Errorf("ScheduleDetails.GetSeasonRaceSchedules() error = %v, wantErr %v", err, tt.wantErr)
-	// 			return
-	// 		}
-	// 		if !reflect.DeepEqual(got, tt.want) {
-	// 			t.Errorf("ScheduleDetails.GetSeasonRaceSchedules() = %v, want %v", got, tt.want)
-	// 		}
-	// 	})
-	// }
 }

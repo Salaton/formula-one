@@ -1,5 +1,7 @@
 package raceschedule
 
+//go:generate mockgen -destination=mocks/mock.go -package=mock_raceschedule -source=schedule.go
+
 import (
 	"bytes"
 	"context"
