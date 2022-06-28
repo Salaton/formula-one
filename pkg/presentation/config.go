@@ -3,7 +3,6 @@ package presentation
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,10 +13,11 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/Salaton/formula-one/pkg/presentation/graph"
 	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
+	"github.com/Salaton/formula-one/pkg/presentation/logger"
 	"github.com/Salaton/formula-one/pkg/usecase"
 	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
 	"github.com/gorilla/mux"
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
 )
 
 func Router(ctx context.Context) *mux.Router {
@@ -59,6 +59,7 @@ func CreateServer(ctx context.Context, opts Options) *http.Server {
 
 func InitializeServer(ctx context.Context, port int) error {
 	srv := CreateServer(ctx, Options{Port: port})
+	logger := logger.NewLogger()
 
 	// Create a channel that will be used to listen for cancellation signales
 	done := make(chan os.Signal, 1)
@@ -69,10 +70,10 @@ func InitializeServer(ctx context.Context, port int) error {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("an error occured while starting the server: %v", err)
+			logger.Log(zerolog.FatalLevel, "an error occured while starting the server: %v", err)
 		}
 	}()
-	logrus.Printf("server running on port: %v", port)
+	logger.Log(zerolog.InfoLevel, "Server running on port: %v", port)
 
 	// This listens for output from the `done` channel created.
 	// If there's any output, it'll begin the process of shutting down the server
@@ -85,12 +86,12 @@ func InitializeServer(ctx context.Context, port int) error {
 	}()
 
 	err := srv.Shutdown(cancelContext)
-	logrus.Print("server shutting down ...")
+	logger.Log(zerolog.InfoLevel, "server shutting down ...")
 	if err != nil {
-		log.Fatalf("server shutdown failed: %v", err)
+		logger.Log(zerolog.FatalLevel, "server shutdown failed: %w", err)
 		return err
 	}
-	logrus.Print("server exited properly")
+	logger.Log(zerolog.InfoLevel, "server exited properly")
 
 	return nil
 }
