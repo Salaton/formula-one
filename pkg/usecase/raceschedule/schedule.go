@@ -10,27 +10,37 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/Salaton/formula-one/config"
 	"github.com/Salaton/formula-one/pkg/domain"
-)
-
-const (
-	responseTypeJSON        = "json"
-	raceScheduleAPIEndpoint = "https://ergast.com/api/f1/%v.%v"
+	"github.com/Salaton/formula-one/pkg/presentation/logger"
+	"github.com/rs/zerolog"
 )
 
 type RaceSchedule interface {
 	GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error)
 }
 
-type ScheduleDetails struct{}
+type ScheduleDetails struct {
+	config config.Configuration
+}
 
 func NewRaceScheduleImplementation() *ScheduleDetails {
-	return &ScheduleDetails{}
+	config, err := config.LoadConfig()
+	if err != nil {
+		logger.NewLogger().Log(zerolog.FatalLevel, "failed to load config")
+	}
+	return &ScheduleDetails{
+		config: *config,
+	}
 }
 
 func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error) {
 	var data *domain.DataResponse
-	urlPath := fmt.Sprintf(raceScheduleAPIEndpoint, year, responseTypeJSON)
+
+	apiEndpoint := s.config.EnvConfig.ErgastAPIEndpoint
+	apiResponseType := s.config.EnvConfig.ErgastAPIResponseType
+
+	urlPath := fmt.Sprintf(apiEndpoint, year, apiResponseType)
 	resp, err := MakeRequest(ctx, http.MethodGet, urlPath, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make the api call %w", err)
