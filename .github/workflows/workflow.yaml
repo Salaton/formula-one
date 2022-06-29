@@ -1,0 +1,37 @@
+name: Sanity Checks
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+          # Cache and restore the dependencies
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          go get ./...
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          go install golang.org/x/lint/golint@latest
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run linter and code sanity Checks
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          go vet ./...
+          gosec ./...
+          golint ./...
+          staticcheck ./...
+
+      - name: Test with the Go CLI
+        run: go test ./...
