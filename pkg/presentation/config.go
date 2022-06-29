@@ -47,11 +47,12 @@ func CreateServer(ctx context.Context, opts Options) *http.Server {
 	router := Router(ctx)
 	address := fmt.Sprintf(":%v", opts.Port)
 	srv := &http.Server{
-		Addr:         address,
-		Handler:      router,
-		IdleTimeout:  time.Second * 60,
-		WriteTimeout: time.Second * 15,
-		ReadTimeout:  time.Second * 15,
+		Addr:              address,
+		Handler:           router,
+		IdleTimeout:       time.Second * 60,
+		WriteTimeout:      time.Second * 120,
+		ReadTimeout:       time.Second * 120,
+		ReadHeaderTimeout: time.Second * 120,
 	}
 
 	return srv
