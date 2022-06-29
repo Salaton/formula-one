@@ -16,7 +16,7 @@ func NewLogger() *Logger {
 	}
 }
 
-func (l Logger) Log(level zerolog.Level, message string, format ...interface{}) error {
+func (l Logger) Log(level zerolog.Level, message string, format ...interface{}) {
 	switch level {
 	case zerolog.ErrorLevel:
 		l.logger.Error().Msgf(message, format...)
@@ -28,5 +28,4 @@ func (l Logger) Log(level zerolog.Level, message string, format ...interface{}) 
 	default:
 		l.logger.Info().Msgf(message, format...)
 	}
-	return nil
 }

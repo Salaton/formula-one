@@ -36,7 +36,10 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	serveCmd.Flags().IntVarP(&Port, "port", "p", 0, "Specify port to run server on")
-	serveCmd.MarkFlagRequired("port")
+	err := serveCmd.MarkFlagRequired("port")
+	if err != nil {
+		log.Printf("an error occured: %v", err)
+	}
 }
 
 func initServer(port int) {

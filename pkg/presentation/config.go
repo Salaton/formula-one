@@ -89,7 +89,7 @@ func InitializeServer(ctx context.Context, port int) error {
 	err := srv.Shutdown(cancelContext)
 	logger.Log(zerolog.InfoLevel, "server shutting down ...")
 	if err != nil {
-		logger.Log(zerolog.FatalLevel, "server shutdown failed: %w", err)
+		logger.Log(zerolog.FatalLevel, "server shutdown failed: %v", err)
 		return err
 	}
 	logger.Log(zerolog.InfoLevel, "server exited properly")
