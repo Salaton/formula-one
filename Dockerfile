@@ -26,4 +26,4 @@ FROM alpine:3
 COPY --from=builder /app/server /server
 
 # Run the web service on container startup.
-CMD ["/server"]
+CMD ["/server", "serve"]
