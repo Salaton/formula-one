@@ -1,7 +1,7 @@
 package domain
 
 type DataResponse struct {
-	MRData MRData `json:"MRData"`
+	MRData MRData `json:"mrData"`
 }
 type Location struct {
 	Lat      string `json:"lat,omitempty"`

@@ -11,13 +11,13 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gorilla/mux"
+	"github.com/rs/zerolog/log"
+
 	"github.com/Salaton/formula-one/pkg/presentation/graph"
 	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
-	"github.com/Salaton/formula-one/pkg/presentation/logger"
 	"github.com/Salaton/formula-one/pkg/usecase"
 	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
-	"github.com/gorilla/mux"
-	"github.com/rs/zerolog"
 )
 
 func Router(ctx context.Context) *mux.Router {
@@ -60,7 +60,6 @@ func CreateServer(ctx context.Context, opts Options) *http.Server {
 
 func InitializeServer(ctx context.Context, port int) error {
 	srv := CreateServer(ctx, Options{Port: port})
-	logger := logger.NewLogger()
 
 	// Create a channel that will be used to listen for cancellation signales
 	done := make(chan os.Signal, 1)
@@ -71,10 +70,10 @@ func InitializeServer(ctx context.Context, port int) error {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Log(zerolog.FatalLevel, "an error occured while starting the server: %v", err)
+			log.Fatal().Err(err).Msg("an error occured while starting the server")
 		}
 	}()
-	logger.Log(zerolog.InfoLevel, "Server running on port: %v", port)
+	log.Info().Msgf("server running on port: %v", port)
 
 	// This listens for output from the `done` channel created.
 	// If there's any output, it'll begin the process of shutting down the server
@@ -87,12 +86,12 @@ func InitializeServer(ctx context.Context, port int) error {
 	}()
 
 	err := srv.Shutdown(cancelContext)
-	logger.Log(zerolog.InfoLevel, "server shutting down ...")
+	log.Info().Msg("server shutting down ...")
 	if err != nil {
-		logger.Log(zerolog.FatalLevel, "server shutdown failed: %v", err)
+		log.Fatal().Err(err).Msg("server shutdown failed")
 		return err
 	}
-	logger.Log(zerolog.InfoLevel, "server exited properly")
+	log.Info().Msg("server exited properly")
 
 	return nil
 }

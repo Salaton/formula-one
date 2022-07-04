@@ -4,10 +4,11 @@ import (
 	"context"
 	"testing"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/Salaton/formula-one/pkg/domain"
 	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
 	mock_raceschedule "github.com/Salaton/formula-one/pkg/usecase/raceschedule/mocks"
-	"github.com/golang/mock/gomock"
 )
 
 func TestScheduleDetails_GetSeasonRaceSchedules(t *testing.T) {

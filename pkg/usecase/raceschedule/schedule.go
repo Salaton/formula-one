@@ -10,10 +10,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/rs/zerolog/log"
+
 	"github.com/Salaton/formula-one/config"
 	"github.com/Salaton/formula-one/pkg/domain"
-	"github.com/Salaton/formula-one/pkg/presentation/logger"
-	"github.com/rs/zerolog"
 )
 
 type RaceSchedule interface {
@@ -27,7 +27,7 @@ type ScheduleDetails struct {
 func NewRaceScheduleImplementation() *ScheduleDetails {
 	config, err := config.LoadConfig()
 	if err != nil {
-		logger.NewLogger().Log(zerolog.FatalLevel, "failed to load config")
+		log.Fatal().Err(err).Msg("failed to load config")
 	}
 	return &ScheduleDetails{
 		config: *config,
