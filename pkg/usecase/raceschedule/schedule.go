@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
 	"github.com/Salaton/formula-one/config"
 	"github.com/Salaton/formula-one/pkg/domain"
@@ -37,8 +38,8 @@ func NewRaceScheduleImplementation() *ScheduleDetails {
 func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error) {
 	var data *domain.DataResponse
 
-	apiEndpoint := s.config.EnvConfig.ErgastAPIEndpoint
-	apiResponseType := s.config.EnvConfig.ErgastAPIResponseType
+	apiEndpoint := viper.GetString("ERGAST_API_ENDPOINT")
+	apiResponseType := viper.GetString("ERGAST_API_RESPONSE_TYPE")
 
 	urlPath := fmt.Sprintf(apiEndpoint, year, apiResponseType)
 	resp, err := MakeRequest(ctx, http.MethodGet, urlPath, nil)
