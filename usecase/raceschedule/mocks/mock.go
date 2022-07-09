@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	domain "github.com/Salaton/formula-one/pkg/domain"
+	model "github.com/Salaton/formula-one/models"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -36,10 +36,10 @@ func (m *MockRaceSchedule) EXPECT() *MockRaceScheduleMockRecorder {
 }
 
 // GetSeasonRaceSchedules mocks base method.
-func (m *MockRaceSchedule) GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error) {
+func (m *MockRaceSchedule) GetSeasonRaceSchedules(ctx context.Context, year int) (*model.DataResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSeasonRaceSchedules", ctx, year)
-	ret0, _ := ret[0].(*domain.DataResponse)
+	ret0, _ := ret[0].(*model.DataResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

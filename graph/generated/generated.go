@@ -13,7 +13,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/Salaton/formula-one/pkg/domain"
+	model "github.com/Salaton/formula-one/models"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -115,7 +115,7 @@ type ComplexityRoot struct {
 }
 
 type QueryResolver interface {
-	RaceSchedule(ctx context.Context, year int) (*domain.DataResponse, error)
+	RaceSchedule(ctx context.Context, year int) (*model.DataResponse, error)
 }
 
 type executableSchema struct {
@@ -600,7 +600,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Circuit_circuitId(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+func (ec *executionContext) _Circuit_circuitId(ctx context.Context, field graphql.CollectedField, obj *model.Circuit) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Circuit_circuitId(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -641,7 +641,7 @@ func (ec *executionContext) fieldContext_Circuit_circuitId(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Circuit_url(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+func (ec *executionContext) _Circuit_url(ctx context.Context, field graphql.CollectedField, obj *model.Circuit) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Circuit_url(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -682,7 +682,7 @@ func (ec *executionContext) fieldContext_Circuit_url(ctx context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _Circuit_circuitName(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+func (ec *executionContext) _Circuit_circuitName(ctx context.Context, field graphql.CollectedField, obj *model.Circuit) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Circuit_circuitName(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -723,7 +723,7 @@ func (ec *executionContext) fieldContext_Circuit_circuitName(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Circuit_Location(ctx context.Context, field graphql.CollectedField, obj *domain.Circuit) (ret graphql.Marshaler) {
+func (ec *executionContext) _Circuit_Location(ctx context.Context, field graphql.CollectedField, obj *model.Circuit) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Circuit_Location(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -746,9 +746,9 @@ func (ec *executionContext) _Circuit_Location(ctx context.Context, field graphql
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.Location)
+	res := resTmp.(model.Location)
 	fc.Result = res
-	return ec.marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐLocation(ctx, field.Selections, res)
+	return ec.marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐLocation(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Circuit_Location(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -774,7 +774,7 @@ func (ec *executionContext) fieldContext_Circuit_Location(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _DataResponse_MRData(ctx context.Context, field graphql.CollectedField, obj *domain.DataResponse) (ret graphql.Marshaler) {
+func (ec *executionContext) _DataResponse_MRData(ctx context.Context, field graphql.CollectedField, obj *model.DataResponse) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DataResponse_MRData(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -797,9 +797,9 @@ func (ec *executionContext) _DataResponse_MRData(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.MRData)
+	res := resTmp.(model.MRData)
 	fc.Result = res
-	return ec.marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐMRData(ctx, field.Selections, res)
+	return ec.marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐMRData(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_DataResponse_MRData(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -829,7 +829,7 @@ func (ec *executionContext) fieldContext_DataResponse_MRData(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _FirstPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.FirstPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _FirstPractice_date(ctx context.Context, field graphql.CollectedField, obj *model.FirstPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_FirstPractice_date(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -870,7 +870,7 @@ func (ec *executionContext) fieldContext_FirstPractice_date(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _FirstPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.FirstPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _FirstPractice_time(ctx context.Context, field graphql.CollectedField, obj *model.FirstPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_FirstPractice_time(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -911,7 +911,7 @@ func (ec *executionContext) fieldContext_FirstPractice_time(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _Location_lat(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+func (ec *executionContext) _Location_lat(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Location_lat(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -952,7 +952,7 @@ func (ec *executionContext) fieldContext_Location_lat(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Location_long(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+func (ec *executionContext) _Location_long(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Location_long(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -993,7 +993,7 @@ func (ec *executionContext) fieldContext_Location_long(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Location_locality(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+func (ec *executionContext) _Location_locality(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Location_locality(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1034,7 +1034,7 @@ func (ec *executionContext) fieldContext_Location_locality(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Location_country(ctx context.Context, field graphql.CollectedField, obj *domain.Location) (ret graphql.Marshaler) {
+func (ec *executionContext) _Location_country(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Location_country(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1075,7 +1075,7 @@ func (ec *executionContext) fieldContext_Location_country(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_xmlns(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_xmlns(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_xmlns(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1116,7 +1116,7 @@ func (ec *executionContext) fieldContext_MRData_xmlns(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_series(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_series(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_series(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1157,7 +1157,7 @@ func (ec *executionContext) fieldContext_MRData_series(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_limit(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_limit(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_limit(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1198,7 +1198,7 @@ func (ec *executionContext) fieldContext_MRData_limit(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_offset(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_offset(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_offset(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1239,7 +1239,7 @@ func (ec *executionContext) fieldContext_MRData_offset(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_total(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_total(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_total(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1280,7 +1280,7 @@ func (ec *executionContext) fieldContext_MRData_total(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _MRData_RaceTable(ctx context.Context, field graphql.CollectedField, obj *domain.MRData) (ret graphql.Marshaler) {
+func (ec *executionContext) _MRData_RaceTable(ctx context.Context, field graphql.CollectedField, obj *model.MRData) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MRData_RaceTable(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1303,9 +1303,9 @@ func (ec *executionContext) _MRData_RaceTable(ctx context.Context, field graphql
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*domain.RaceTable)
+	res := resTmp.(*model.RaceTable)
 	fc.Result = res
-	return ec.marshalORaceTable2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaceTable(ctx, field.Selections, res)
+	return ec.marshalORaceTable2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaceTable(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MRData_RaceTable(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1327,7 +1327,7 @@ func (ec *executionContext) fieldContext_MRData_RaceTable(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _Qualifying_date(ctx context.Context, field graphql.CollectedField, obj *domain.Qualifying) (ret graphql.Marshaler) {
+func (ec *executionContext) _Qualifying_date(ctx context.Context, field graphql.CollectedField, obj *model.Qualifying) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Qualifying_date(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1368,7 +1368,7 @@ func (ec *executionContext) fieldContext_Qualifying_date(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Qualifying_time(ctx context.Context, field graphql.CollectedField, obj *domain.Qualifying) (ret graphql.Marshaler) {
+func (ec *executionContext) _Qualifying_time(ctx context.Context, field graphql.CollectedField, obj *model.Qualifying) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Qualifying_time(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1435,9 +1435,9 @@ func (ec *executionContext) _Query_raceSchedule(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*domain.DataResponse)
+	res := resTmp.(*model.DataResponse)
 	fc.Result = res
-	return ec.marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx, field.Selections, res)
+	return ec.marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐDataResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_raceSchedule(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1597,7 +1597,7 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _RaceTable_season(ctx context.Context, field graphql.CollectedField, obj *domain.RaceTable) (ret graphql.Marshaler) {
+func (ec *executionContext) _RaceTable_season(ctx context.Context, field graphql.CollectedField, obj *model.RaceTable) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_RaceTable_season(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1638,7 +1638,7 @@ func (ec *executionContext) fieldContext_RaceTable_season(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _RaceTable_Races(ctx context.Context, field graphql.CollectedField, obj *domain.RaceTable) (ret graphql.Marshaler) {
+func (ec *executionContext) _RaceTable_Races(ctx context.Context, field graphql.CollectedField, obj *model.RaceTable) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_RaceTable_Races(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1661,9 +1661,9 @@ func (ec *executionContext) _RaceTable_Races(ctx context.Context, field graphql.
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Races)
+	res := resTmp.([]*model.Races)
 	fc.Result = res
-	return ec.marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx, field.Selections, res)
+	return ec.marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaces(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_RaceTable_Races(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1703,7 +1703,7 @@ func (ec *executionContext) fieldContext_RaceTable_Races(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_season(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_season(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_season(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1744,7 +1744,7 @@ func (ec *executionContext) fieldContext_Races_season(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_round(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_round(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_round(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1785,7 +1785,7 @@ func (ec *executionContext) fieldContext_Races_round(ctx context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_url(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_url(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_url(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1826,7 +1826,7 @@ func (ec *executionContext) fieldContext_Races_url(ctx context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_raceName(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_raceName(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_raceName(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1867,7 +1867,7 @@ func (ec *executionContext) fieldContext_Races_raceName(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_date(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_date(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_date(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1908,7 +1908,7 @@ func (ec *executionContext) fieldContext_Races_date(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_time(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_time(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_time(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1949,7 +1949,7 @@ func (ec *executionContext) fieldContext_Races_time(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_Qualifying(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_Qualifying(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_Qualifying(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1972,9 +1972,9 @@ func (ec *executionContext) _Races_Qualifying(ctx context.Context, field graphql
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.Qualifying)
+	res := resTmp.(model.Qualifying)
 	fc.Result = res
-	return ec.marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐQualifying(ctx, field.Selections, res)
+	return ec.marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐQualifying(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Races_Qualifying(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1996,7 +1996,7 @@ func (ec *executionContext) fieldContext_Races_Qualifying(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_ThirdPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_ThirdPractice(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_ThirdPractice(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2019,9 +2019,9 @@ func (ec *executionContext) _Races_ThirdPractice(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.ThirdPractice)
+	res := resTmp.(model.ThirdPractice)
 	fc.Result = res
-	return ec.marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐThirdPractice(ctx, field.Selections, res)
+	return ec.marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐThirdPractice(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Races_ThirdPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2043,7 +2043,7 @@ func (ec *executionContext) fieldContext_Races_ThirdPractice(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_SecondPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_SecondPractice(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_SecondPractice(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2066,9 +2066,9 @@ func (ec *executionContext) _Races_SecondPractice(ctx context.Context, field gra
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.SecondPractice)
+	res := resTmp.(model.SecondPractice)
 	fc.Result = res
-	return ec.marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐSecondPractice(ctx, field.Selections, res)
+	return ec.marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐSecondPractice(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Races_SecondPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2090,7 +2090,7 @@ func (ec *executionContext) fieldContext_Races_SecondPractice(ctx context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_FirstPractice(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_FirstPractice(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_FirstPractice(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2113,9 +2113,9 @@ func (ec *executionContext) _Races_FirstPractice(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.FirstPractice)
+	res := resTmp.(model.FirstPractice)
 	fc.Result = res
-	return ec.marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐFirstPractice(ctx, field.Selections, res)
+	return ec.marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐFirstPractice(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Races_FirstPractice(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2137,7 +2137,7 @@ func (ec *executionContext) fieldContext_Races_FirstPractice(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Races_Circuit(ctx context.Context, field graphql.CollectedField, obj *domain.Races) (ret graphql.Marshaler) {
+func (ec *executionContext) _Races_Circuit(ctx context.Context, field graphql.CollectedField, obj *model.Races) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Races_Circuit(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2160,9 +2160,9 @@ func (ec *executionContext) _Races_Circuit(ctx context.Context, field graphql.Co
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(domain.Circuit)
+	res := resTmp.(model.Circuit)
 	fc.Result = res
-	return ec.marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐCircuit(ctx, field.Selections, res)
+	return ec.marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐCircuit(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Races_Circuit(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2188,7 +2188,7 @@ func (ec *executionContext) fieldContext_Races_Circuit(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _SecondPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.SecondPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _SecondPractice_date(ctx context.Context, field graphql.CollectedField, obj *model.SecondPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_SecondPractice_date(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2229,7 +2229,7 @@ func (ec *executionContext) fieldContext_SecondPractice_date(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _SecondPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.SecondPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _SecondPractice_time(ctx context.Context, field graphql.CollectedField, obj *model.SecondPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_SecondPractice_time(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2270,7 +2270,7 @@ func (ec *executionContext) fieldContext_SecondPractice_time(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _ThirdPractice_date(ctx context.Context, field graphql.CollectedField, obj *domain.ThirdPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _ThirdPractice_date(ctx context.Context, field graphql.CollectedField, obj *model.ThirdPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ThirdPractice_date(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -2311,7 +2311,7 @@ func (ec *executionContext) fieldContext_ThirdPractice_date(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _ThirdPractice_time(ctx context.Context, field graphql.CollectedField, obj *domain.ThirdPractice) (ret graphql.Marshaler) {
+func (ec *executionContext) _ThirdPractice_time(ctx context.Context, field graphql.CollectedField, obj *model.ThirdPractice) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ThirdPractice_time(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -4135,7 +4135,7 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 var circuitImplementors = []string{"Circuit"}
 
-func (ec *executionContext) _Circuit(ctx context.Context, sel ast.SelectionSet, obj *domain.Circuit) graphql.Marshaler {
+func (ec *executionContext) _Circuit(ctx context.Context, sel ast.SelectionSet, obj *model.Circuit) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, circuitImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4172,7 +4172,7 @@ func (ec *executionContext) _Circuit(ctx context.Context, sel ast.SelectionSet, 
 
 var dataResponseImplementors = []string{"DataResponse"}
 
-func (ec *executionContext) _DataResponse(ctx context.Context, sel ast.SelectionSet, obj *domain.DataResponse) graphql.Marshaler {
+func (ec *executionContext) _DataResponse(ctx context.Context, sel ast.SelectionSet, obj *model.DataResponse) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, dataResponseImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4197,7 +4197,7 @@ func (ec *executionContext) _DataResponse(ctx context.Context, sel ast.Selection
 
 var firstPracticeImplementors = []string{"FirstPractice"}
 
-func (ec *executionContext) _FirstPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.FirstPractice) graphql.Marshaler {
+func (ec *executionContext) _FirstPractice(ctx context.Context, sel ast.SelectionSet, obj *model.FirstPractice) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, firstPracticeImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4226,7 +4226,7 @@ func (ec *executionContext) _FirstPractice(ctx context.Context, sel ast.Selectio
 
 var locationImplementors = []string{"Location"}
 
-func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet, obj *domain.Location) graphql.Marshaler {
+func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet, obj *model.Location) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, locationImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4263,7 +4263,7 @@ func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet,
 
 var mRDataImplementors = []string{"MRData"}
 
-func (ec *executionContext) _MRData(ctx context.Context, sel ast.SelectionSet, obj *domain.MRData) graphql.Marshaler {
+func (ec *executionContext) _MRData(ctx context.Context, sel ast.SelectionSet, obj *model.MRData) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, mRDataImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4308,7 +4308,7 @@ func (ec *executionContext) _MRData(ctx context.Context, sel ast.SelectionSet, o
 
 var qualifyingImplementors = []string{"Qualifying"}
 
-func (ec *executionContext) _Qualifying(ctx context.Context, sel ast.SelectionSet, obj *domain.Qualifying) graphql.Marshaler {
+func (ec *executionContext) _Qualifying(ctx context.Context, sel ast.SelectionSet, obj *model.Qualifying) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, qualifyingImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4402,7 +4402,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var raceTableImplementors = []string{"RaceTable"}
 
-func (ec *executionContext) _RaceTable(ctx context.Context, sel ast.SelectionSet, obj *domain.RaceTable) graphql.Marshaler {
+func (ec *executionContext) _RaceTable(ctx context.Context, sel ast.SelectionSet, obj *model.RaceTable) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, raceTableImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4431,7 +4431,7 @@ func (ec *executionContext) _RaceTable(ctx context.Context, sel ast.SelectionSet
 
 var racesImplementors = []string{"Races"}
 
-func (ec *executionContext) _Races(ctx context.Context, sel ast.SelectionSet, obj *domain.Races) graphql.Marshaler {
+func (ec *executionContext) _Races(ctx context.Context, sel ast.SelectionSet, obj *model.Races) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, racesImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4496,7 +4496,7 @@ func (ec *executionContext) _Races(ctx context.Context, sel ast.SelectionSet, ob
 
 var secondPracticeImplementors = []string{"SecondPractice"}
 
-func (ec *executionContext) _SecondPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.SecondPractice) graphql.Marshaler {
+func (ec *executionContext) _SecondPractice(ctx context.Context, sel ast.SelectionSet, obj *model.SecondPractice) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, secondPracticeImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4525,7 +4525,7 @@ func (ec *executionContext) _SecondPractice(ctx context.Context, sel ast.Selecti
 
 var thirdPracticeImplementors = []string{"ThirdPractice"}
 
-func (ec *executionContext) _ThirdPractice(ctx context.Context, sel ast.SelectionSet, obj *domain.ThirdPractice) graphql.Marshaler {
+func (ec *executionContext) _ThirdPractice(ctx context.Context, sel ast.SelectionSet, obj *model.ThirdPractice) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, thirdPracticeImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
@@ -4885,11 +4885,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNDataResponse2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v domain.DataResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNDataResponse2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v model.DataResponse) graphql.Marshaler {
 	return ec._DataResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v *domain.DataResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNDataResponse2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐDataResponse(ctx context.Context, sel ast.SelectionSet, v *model.DataResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -5208,34 +5208,34 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐCircuit(ctx context.Context, sel ast.SelectionSet, v domain.Circuit) graphql.Marshaler {
+func (ec *executionContext) marshalOCircuit2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐCircuit(ctx context.Context, sel ast.SelectionSet, v model.Circuit) graphql.Marshaler {
 	return ec._Circuit(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐFirstPractice(ctx context.Context, sel ast.SelectionSet, v domain.FirstPractice) graphql.Marshaler {
+func (ec *executionContext) marshalOFirstPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐFirstPractice(ctx context.Context, sel ast.SelectionSet, v model.FirstPractice) graphql.Marshaler {
 	return ec._FirstPractice(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐLocation(ctx context.Context, sel ast.SelectionSet, v domain.Location) graphql.Marshaler {
+func (ec *executionContext) marshalOLocation2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐLocation(ctx context.Context, sel ast.SelectionSet, v model.Location) graphql.Marshaler {
 	return ec._Location(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐMRData(ctx context.Context, sel ast.SelectionSet, v domain.MRData) graphql.Marshaler {
+func (ec *executionContext) marshalOMRData2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐMRData(ctx context.Context, sel ast.SelectionSet, v model.MRData) graphql.Marshaler {
 	return ec._MRData(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐQualifying(ctx context.Context, sel ast.SelectionSet, v domain.Qualifying) graphql.Marshaler {
+func (ec *executionContext) marshalOQualifying2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐQualifying(ctx context.Context, sel ast.SelectionSet, v model.Qualifying) graphql.Marshaler {
 	return ec._Qualifying(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalORaceTable2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaceTable(ctx context.Context, sel ast.SelectionSet, v *domain.RaceTable) graphql.Marshaler {
+func (ec *executionContext) marshalORaceTable2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaceTable(ctx context.Context, sel ast.SelectionSet, v *model.RaceTable) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._RaceTable(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx context.Context, sel ast.SelectionSet, v []*domain.Races) graphql.Marshaler {
+func (ec *executionContext) marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaces(ctx context.Context, sel ast.SelectionSet, v []*model.Races) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -5262,7 +5262,7 @@ func (ec *executionContext) marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformula
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalORaces2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx, sel, v[i])
+			ret[i] = ec.marshalORaces2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaces(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -5276,14 +5276,14 @@ func (ec *executionContext) marshalORaces2ᚕᚖgithubᚗcomᚋSalatonᚋformula
 	return ret
 }
 
-func (ec *executionContext) marshalORaces2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐRaces(ctx context.Context, sel ast.SelectionSet, v *domain.Races) graphql.Marshaler {
+func (ec *executionContext) marshalORaces2ᚖgithubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐRaces(ctx context.Context, sel ast.SelectionSet, v *model.Races) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Races(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐSecondPractice(ctx context.Context, sel ast.SelectionSet, v domain.SecondPractice) graphql.Marshaler {
+func (ec *executionContext) marshalOSecondPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐSecondPractice(ctx context.Context, sel ast.SelectionSet, v model.SecondPractice) graphql.Marshaler {
 	return ec._SecondPractice(ctx, sel, &v)
 }
 
@@ -5313,7 +5313,7 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋpkgᚋdomainᚐThirdPractice(ctx context.Context, sel ast.SelectionSet, v domain.ThirdPractice) graphql.Marshaler {
+func (ec *executionContext) marshalOThirdPractice2githubᚗcomᚋSalatonᚋformulaᚑoneᚋmodelsᚐThirdPractice(ctx context.Context, sel ast.SelectionSet, v model.ThirdPractice) graphql.Marshaler {
 	return ec._ThirdPractice(ctx, sel, &v)
 }
 

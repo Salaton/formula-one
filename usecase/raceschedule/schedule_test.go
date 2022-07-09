@@ -6,9 +6,9 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/Salaton/formula-one/pkg/domain"
-	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
-	mock_raceschedule "github.com/Salaton/formula-one/pkg/usecase/raceschedule/mocks"
+	model "github.com/Salaton/formula-one/models"
+	"github.com/Salaton/formula-one/usecase/raceschedule"
+	mock_raceschedule "github.com/Salaton/formula-one/usecase/raceschedule/mocks"
 )
 
 func TestScheduleDetails_GetSeasonRaceSchedules(t *testing.T) {
@@ -17,11 +17,11 @@ func TestScheduleDetails_GetSeasonRaceSchedules(t *testing.T) {
 	mockRaceScheduleClient := mock_raceschedule.NewMockRaceSchedule(ctrl)
 
 	// configure our mock to return mock data
-	mockRaceScheduleClient.EXPECT().GetSeasonRaceSchedules(context.Background(), 1990).Return(&domain.DataResponse{
-		MRData: domain.MRData{
-			RaceTable: &domain.RaceTable{
+	mockRaceScheduleClient.EXPECT().GetSeasonRaceSchedules(context.Background(), 1990).Return(&model.DataResponse{
+		MRData: model.MRData{
+			RaceTable: &model.RaceTable{
 				Season: "1990",
-				Races: []*domain.Races{{
+				Races: []*model.Races{{
 					Season: "1990",
 					Round:  "1",
 				}},

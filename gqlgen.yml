@@ -1,10 +1,10 @@
 # Where are all the schema files located? globs are supported eg  src/**/*.graphqls
 schema:
-  - pkg/presentation/graph/*.graphqls
+  - graph/*.graphqls
 
 # Where should the generated server code go?
 exec:
-  filename: pkg/presentation/graph/generated/generated.go
+  filename: graph/generated/generated.go
   package: generated
 
 # Uncomment to enable federation
@@ -14,13 +14,13 @@ exec:
 
 # Where should any generated models go?
 model:
-  filename: pkg/domain/model/models_gen.go
+  filename: model/models_gen.go
   package: model
 
 # Where should the resolver implementations go?
 resolver:
   layout: follow-schema
-  dir: pkg/presentation/graph
+  dir: graph
   package: graph
 
 # Optional: turn on use ` + "`" + `gqlgen:"fieldName"` + "`" + ` tags in your models
@@ -42,7 +42,7 @@ skip_validation: true
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 autobind:
- - "github.com/Salaton/formula-one/pkg/domain"
+ - "github.com/Salaton/formula-one/models"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
