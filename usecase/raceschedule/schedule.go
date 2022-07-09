@@ -14,11 +14,11 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/Salaton/formula-one/config"
-	"github.com/Salaton/formula-one/pkg/domain"
+	model "github.com/Salaton/formula-one/models"
 )
 
 type RaceSchedule interface {
-	GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error)
+	GetSeasonRaceSchedules(ctx context.Context, year int) (*model.DataResponse, error)
 }
 
 type ScheduleDetails struct {
@@ -35,8 +35,8 @@ func NewRaceScheduleImplementation() *ScheduleDetails {
 	}
 }
 
-func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (*domain.DataResponse, error) {
-	var data *domain.DataResponse
+func (s ScheduleDetails) GetSeasonRaceSchedules(ctx context.Context, year int) (*model.DataResponse, error) {
+	var data *model.DataResponse
 
 	apiEndpoint := viper.GetString("ERGAST_API_ENDPOINT")
 	apiResponseType := viper.GetString("ERGAST_API_RESPONSE_TYPE")

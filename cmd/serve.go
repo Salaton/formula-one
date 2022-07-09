@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/Salaton/formula-one/config"
-	"github.com/Salaton/formula-one/pkg/presentation"
+	"github.com/Salaton/formula-one/server"
 )
 
 // serveCmd represents the serve command
@@ -22,7 +22,7 @@ var serveCmd = &cobra.Command{
 			return err
 		}
 
-		err = presentation.InitializeServer(ctx, config.EnvConfig.Port)
+		err = server.InitializeServer(ctx, config.EnvConfig.Port)
 		if err != nil {
 			log.Fatalf("an error occured: %v", err)
 			return err

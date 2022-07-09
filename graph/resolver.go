@@ -3,7 +3,7 @@ package graph
 import (
 	"context"
 
-	"github.com/Salaton/formula-one/pkg/usecase"
+	"github.com/Salaton/formula-one/usecase"
 )
 
 //go:generate go run github.com/99designs/gqlgen generate

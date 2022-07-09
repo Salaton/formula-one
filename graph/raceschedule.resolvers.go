@@ -6,11 +6,11 @@ package graph
 import (
 	"context"
 
-	"github.com/Salaton/formula-one/pkg/domain"
-	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
+	"github.com/Salaton/formula-one/graph/generated"
+	model "github.com/Salaton/formula-one/models"
 )
 
-func (r *queryResolver) RaceSchedule(ctx context.Context, year int) (*domain.DataResponse, error) {
+func (r *queryResolver) RaceSchedule(ctx context.Context, year int) (*model.DataResponse, error) {
 	return r.formulaone.RaceSchedule.GetSeasonRaceSchedules(ctx, year)
 }
 

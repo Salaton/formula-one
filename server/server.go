@@ -1,4 +1,4 @@
-package presentation
+package server
 
 import (
 	"context"
@@ -14,10 +14,10 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 
-	"github.com/Salaton/formula-one/pkg/presentation/graph"
-	"github.com/Salaton/formula-one/pkg/presentation/graph/generated"
-	"github.com/Salaton/formula-one/pkg/usecase"
-	"github.com/Salaton/formula-one/pkg/usecase/raceschedule"
+	"github.com/Salaton/formula-one/graph"
+	"github.com/Salaton/formula-one/graph/generated"
+	"github.com/Salaton/formula-one/usecase"
+	"github.com/Salaton/formula-one/usecase/raceschedule"
 )
 
 func Router(ctx context.Context) *mux.Router {
